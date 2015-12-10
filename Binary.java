@@ -4,7 +4,7 @@
 //APCS pd 10
 //Hw 43 - Binary;
 
-public class Binary {
+public class Binary implements Comparable{
 
     private int _decNum;
     private String _binNum;
@@ -45,7 +45,9 @@ public class Binary {
 	/****** YOUR IMPLEMENTATION HURRR ******/   
     }
 
-
+    public double get(){
+	return(double) _decNum;
+    }
     /*=====================================
       String toString() -- returns String representation of this Object
       pre:  n/a
@@ -115,7 +117,7 @@ public class Binary {
     public static int binToDec( String s ) {
 	int fin = 0;
 	for (int i = 0; i < s.length(); i++){
-	    fin +=(int)( Math.pow(2.0,Double.parseDouble((s.substring(i,i+1)))));//So many close Parens. Make sure to typecast as an int so you can add it to Fin
+	    fin +=(int)( Math.pow(2.0,s.length() -1 -i))*Integer.parseInt(s.substring(i,i+1));//So many close Parens. Make sure to typecast as an int so you can add it to Fin
 	}
 	return fin;
 	    
@@ -138,7 +140,7 @@ public class Binary {
 	if (s.length() == 1){
 	    return Integer.parseInt(s);
 	}else{
-	    return (int) Math.pow(2.0,Double.parseDouble((s.substring(0,1)))) + binToDecR(s.substring(1));
+	    return (int) Math.pow(2.0,s.length() - 1)* Integer.parseInt(s.substring(0,1)) + binToDecR(s.substring(1));
 	/****** YOUR IMPLEMENTATION HURRR ******/   
     }
     }
@@ -165,11 +167,21 @@ public class Binary {
       =============================================*/
     public int compareTo( Object other ) {
 	/****** YOUR IMPLEMENTATION HURRR ******/
-	Binary mother = new Binary();//I should have a check here, but I like to beleive just a little bit in my userbase.
-	mother = (Binary)other;
-	return ( binToDec(_binNum) -  binToDec(mother._binNum));
-    }
+		if (!(other instanceof Comparable || other instanceof Binary)){
+	    throw new ClassCastException( "invalid input");
+		}
+	if (other instanceof Comparable){
+	    Comparable mother =(Comparable)other;
+	    return (int)(this.get() - mother.get());
 
+
+	}
+	else if (other instanceof Binary){
+	    Binary mother =(Binary)other;
+	    return (int)(this.get() - mother.get());
+	}
+	    return -9;
+    }
 
     //main method for testing
     public static void main( String[] args ) {

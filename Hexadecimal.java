@@ -4,7 +4,7 @@
 //APCS pd 10
 //Hw 44 - Hexadecimal;
 
-public class Hexadecimal {
+public class Hexadecimal implements Comparable {
 
     private int _decNum;
     private String _hexNum;
@@ -23,6 +23,9 @@ public class Hexadecimal {
     }
 
 
+    public double  get(){
+	return (double)_decNum;
+    }
     /*=====================================
       overloaded constructor
       pre:  n >= 0
@@ -166,14 +169,21 @@ public class Hexadecimal {
       =============================================*/
     public int compareTo( Object other ) {
 	/****** YOUR IMPLEMENTATION HURRR ******/
-	if ( !( other instanceof Hexadecimal)){
-	    throw new ClassCastException("\n You have failed entered a non hxadecimal");
-	}
-	Hexadecimal mother = new Hexadecimal();//I should have a check here, but I like to beleive just a little bit in my userbase.
-	mother = (Hexadecimal)other;
-	return ( hexToDecR(_hexNum) -  hexToDecR(mother._hexNum));
-    }
+		if (!(other instanceof Comparable || other instanceof Hexadecimal)){
+	    throw new ClassCastException( "invalid input");
+	    }
+	if (other instanceof Comparable){
+	    Comparable mother =(Comparable)other;
+	    return (int)(this.get() - mother.get());
 
+
+	}
+	else if (other instanceof Hexadecimal){
+	    Hexadecimal mother =(Hexadecimal)other;
+	    return (int)(this.get() - mother.get());
+	}
+	    return -9;
+    }
 
     //main method for testing
     public static void main( String[] args ) {
@@ -186,11 +196,14 @@ public class Hexadecimal {
 	Hexadecimal b2 = new Hexadecimal(15);
 	Hexadecimal b3 = b1;
 	Hexadecimal b4 = new Hexadecimal(17);
+	Rational b5 = new Rational(17,1);
+	Binary b6 = new Binary(17);
 
 	System.out.println( b1 );
 	System.out.println( b2 );
 	System.out.println( b3 );       
-	System.out.println( b4 );       
+	System.out.println( b4 );
+		System.out.println( b5 );       
 
 	System.out.println( "\n==..." );
 	System.out.println( b1 == b2 ); //should be false
@@ -208,6 +221,8 @@ public class Hexadecimal {
 	System.out.println( b1.compareTo(b3) ); //should be 0
 	System.out.println( b1.compareTo(b4) ); //should be neg
 	System.out.println( b4.compareTo(b1) ); //should be pos
+	System.out.println( b4.compareTo(b5) ); //should be 0
+	System.out.println( b4.compareTo(b6) ); //should be 0
     }//end main()
 
 } //end class

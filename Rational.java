@@ -25,6 +25,9 @@ public class Rational implements Comparable{
     //Convert the int/int into a single double
     public double floatValue(){
 	return (((double) numerator)/denominator);}
+    public double get(){
+	return floatValue();
+    }
     //change your fraction  into a new fraction while maintaing the multiplier
     public void multiply(Rational r){
 	this.numerator = r.numerator * this.numerator;
@@ -86,9 +89,19 @@ public class Rational implements Comparable{
 	}
     }
 
-    public int compareTo(Object o){
-	if(o instanceof Rational){//Check if user entered a rational, allow it
-	    Rational n = (Rational)o;//MAke sure to typecast
+    public int compareTo(Object other){
+      	if (!(other instanceof Comparable || other instanceof Rational)){
+	    throw new ClassCastException( "invalid input");
+	    }
+	if (other instanceof Comparable){
+	    Comparable mother =(Comparable)other;
+	    return (int)(this.get() - mother.get());
+
+
+	}
+	else if(other instanceof Rational){//Check if user entered a rational, allow it
+	    Rational n = new Rational();//MAke sure to typecast
+	    n =(Rational)other;
 	    if (this.equals(n)){
 		return 0;
 	    }else if ((double)(this.floatValue()) > (double)(n.floatValue())){
@@ -97,11 +110,9 @@ public class Rational implements Comparable{
 		return -1;
 	    }
 	}
-	else {
-	    System.out.println ("tisn't a rational");	    
-	    return 2;
-	}
+	    return -9;
     }
+ 
 
     public static void main(String[] args){
 	Rational a = new Rational(1,2);
